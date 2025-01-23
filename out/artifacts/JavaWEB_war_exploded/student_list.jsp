@@ -47,7 +47,7 @@
     function deleteById(id) {
         var isDelete = confirm("您真的要删除吗?");
         if(isDelete) {
-            location.href = "/deleteStudent?id=" + id;
+            location.href = "/student?method=deleteById&id=" + id;
         }
     }
 </script>
