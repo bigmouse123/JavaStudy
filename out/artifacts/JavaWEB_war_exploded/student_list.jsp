@@ -26,6 +26,7 @@
         <td>名字</td>
         <td>年龄</td>
         <td>性别</td>
+        <td>删除</td>
     </tr>
     <%
         for (Student student : list) {
@@ -35,10 +36,20 @@
         <td><%=student.getName()%></td>
         <td><%=student.getAge()%></td>
         <td><%=student.getGender()%></td>
+<%--        <td><a href="/deleteStudent?id=<%=student.getId()%>">删除</a></td>--%>
+        <td><a href="javascript:void(0)" onclick="deleteById(<%=student.getId()%>)">删除</a></td>
     </tr>
     <%
         }
     %>
 </table>
+<script>
+    function deleteById(id) {
+        var isDelete = confirm("您真的要删除吗?");
+        if(isDelete) {
+            location.href = "/deleteStudent?id=" + id;
+        }
+    }
+</script>
 </body>
 </html>

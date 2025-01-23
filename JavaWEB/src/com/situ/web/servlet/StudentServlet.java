@@ -26,6 +26,27 @@ public class StudentServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("StudentServlet");
+        // http://localhost:8080/JavaWeb/student?method=selectAll
+        // http://localhost:8080/JavaWeb/student?method=deleteById&id=1
+        // http://localhost:8080/JavaWeb/student?method=add
+        String method = req.getParameter("method");
+        if (method == null || method.equals("")) {
+            method = "selectAll";
+        }
+        switch (method) {
+            case "selectAll":
+                selectAll(req, resp);
+                break;
+            case "deleteById":
+                deleteById(req, resp);
+                break;
+            case "add":
+                break;
+        }
+
+    }
+
+    private void selectAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -57,5 +78,27 @@ public class StudentServlet extends HttpServlet {
         req.setAttribute("list", list);
         //转发到student_list.jsp页面进行展示
         req.getRequestDispatcher("student_list.jsp").forward(req, resp);
+    }
+
+    private void deleteById(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("DeleteStudentServlet");
+        String id = req.getParameter("id");
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = JDBCUtils.getConnection();
+            String sql = "delete from student where id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, Integer.parseInt(id));
+            int count = statement.executeUpdate();
+            System.out.println(statement);
+            System.out.println(count);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            JDBCUtils.close(connection, statement, null);
+        }
+        //删除之后重定向
+        resp.sendRedirect("/student?method=deleteById");
     }
 }
