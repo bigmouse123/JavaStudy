@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * @author OfferKing
  * @version 1.0
@@ -26,6 +27,7 @@ public class StudentServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("StudentServlet");
+        req.setCharacterEncoding("utf-8");
         // http://localhost:8080/JavaWeb/student?method=selectAll
         // http://localhost:8080/JavaWeb/student?method=deleteById&id=1
         // http://localhost:8080/JavaWeb/student?method=add
@@ -41,10 +43,22 @@ public class StudentServlet extends HttpServlet {
                 deleteById(req, resp);
                 break;
             case "add":
+                add(req, resp);
                 break;
+            case "toStudentAdd":
+                toStudentAdd(req, resp);
+                break;
+            case "update":
+                update(req, resp);
+                break;
+            case "toStudentUpdate":
+                toStudentUpdate(req, resp);
+                break;
+
         }
 
     }
+
 
     private void selectAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Connection connection = null;
@@ -100,5 +114,92 @@ public class StudentServlet extends HttpServlet {
         }
         //删除之后重定向
         resp.sendRedirect("/student?method=selectAll");
+    }
+
+    private void add(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("AddStudentServlet");
+        String name = req.getParameter("name");
+        int age = Integer.parseInt(req.getParameter("age"));
+        String gender = req.getParameter("gender");
+        System.out.println(name + " " + age + " " + gender);
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = JDBCUtils.getConnection();
+            String sql = "insert into student(name,age,gender) values(?,?,?)";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, name);
+            statement.setInt(2, age);
+            statement.setString(3, gender);
+            int count = statement.executeUpdate();
+            System.out.println(statement);
+            System.out.println(count);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            JDBCUtils.close(connection, statement, null);
+        }
+        resp.sendRedirect("/student?method=selectAll");
+    }
+
+    private void toStudentAdd(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("toStudentAdd");
+        req.getRequestDispatcher("student_add.jsp").forward(req, resp);
+    }
+
+    private void update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        System.out.println("update");
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        int id = Integer.parseInt(req.getParameter("id"));
+        String name = req.getParameter("name");
+        int age = Integer.parseInt(req.getParameter("age"));
+        String gender = req.getParameter("gender");
+        try {
+            connection = JDBCUtils.getConnection();
+            String sql = "UPDATE student SET name = ?,age = ?,gender = ? WHERE id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, name);
+            statement.setInt(2, age);
+            statement.setString(3, gender);
+            statement.setInt(4, id);
+            int count = statement.executeUpdate();
+            System.out.println(statement);
+            System.out.println(count);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            JDBCUtils.close(connection, statement, null);
+        }
+        resp.sendRedirect("/student");
+    }
+
+    private void toStudentUpdate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("toStudentUpdate");
+        String id = req.getParameter("id");
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Student student = null;
+        try {
+            connection = JDBCUtils.getConnection();
+            String sql = "SELECT id,name,age,gender from student where id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, Integer.parseInt(id));
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
+                int age = resultSet.getInt("age");
+                String gender = resultSet.getString("gender");
+                student = new Student(Integer.parseInt(id), name, age, gender);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            JDBCUtils.close(connection, statement, resultSet);
+        }
+        req.setAttribute("student", student);
+        req.getRequestDispatcher("/student_update.jsp").forward(req, resp);
     }
 }
