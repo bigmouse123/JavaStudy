@@ -6,19 +6,19 @@ package com.situ.web.pojo;
  * @date 2025/1/23 17:04
  */
 public class Teacher {
-    private int id;
+    private Integer id;
     private String name;
     private int age;
     private String address;
 
-    public Teacher(int id, String name, int age, String address) {
+    public Teacher(Integer id, String name, int age, String address) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.address = address;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
