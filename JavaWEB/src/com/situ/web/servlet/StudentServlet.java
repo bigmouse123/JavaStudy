@@ -88,7 +88,7 @@ public class StudentServlet extends HttpServlet {
             JDBCUtils.close(connection, statement, resultSet);
         }
         //把list数据交给jsp页面进行展示
-        //把list数据当道req里面
+        //把list数据放道req里面
         req.setAttribute("list", list);
         //转发到student_list.jsp页面进行展示
         req.getRequestDispatcher("student_list.jsp").forward(req, resp);
