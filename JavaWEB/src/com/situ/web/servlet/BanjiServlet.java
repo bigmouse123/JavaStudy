@@ -47,6 +47,9 @@ public class BanjiServlet extends HttpServlet {
             case "add":
                 add(req, resp);
                 break;
+            case "toBanjiAdd":
+                toBanjiAdd(req, resp);
+                break;
             case "selectById":
                 selectById(req, resp);
                 break;
@@ -56,6 +59,7 @@ public class BanjiServlet extends HttpServlet {
         }
 
     }
+
 
     private void selectAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Banji> list = iBanjiDao.selectAll();
@@ -67,6 +71,11 @@ public class BanjiServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
         iBanjiDao.deleteById(id);
         resp.sendRedirect("/banji");
+    }
+
+    private void toBanjiAdd(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("toBanjiAdd");
+        req.getRequestDispatcher("banji_add.jsp").forward(req, resp);
     }
 
     private void add(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
