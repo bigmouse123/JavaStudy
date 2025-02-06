@@ -134,4 +134,58 @@ public class BanjiDaoImpl implements IBanjiDao {
             JDBCUtils.close(connection, statement, null);
         }
     }
+
+    @Override
+    public List<Banji> selectByPage(int offset, int pageSize) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<Banji> list = null;
+        try {
+            connection = JDBCUtils.getConnection();
+            String sql = "SELECT id,name,address from banji LIMIT ?,?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, offset);
+            statement.setInt(2, pageSize);
+            resultSet = statement.executeQuery();
+            list = new ArrayList<>();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String address = resultSet.getString("address");
+                Banji banji = new Banji(id, name, address);
+                list.add(banji);
+            }
+            for (Banji banji : list) {
+                System.out.println(banji);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            JDBCUtils.close(connection, statement, resultSet);
+        }
+        return list;
+    }
+
+    @Override
+    public int selectTotalCount() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        int totalCount = 0;
+        try {
+            connection = JDBCUtils.getConnection();
+            String sql = "SELECT COUNT(*) from banji";
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                totalCount = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            JDBCUtils.close(connection, statement, resultSet);
+        }
+        return totalCount;
+    }
 }

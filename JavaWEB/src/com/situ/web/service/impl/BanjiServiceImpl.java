@@ -4,6 +4,7 @@ import com.situ.web.dao.IBanjiDao;
 import com.situ.web.dao.impl.BanjiDaoImpl;
 import com.situ.web.pojo.Banji;
 import com.situ.web.service.IBanjiService;
+import com.situ.web.utils.PageInfo;
 
 import java.util.List;
 
@@ -39,5 +40,15 @@ public class BanjiServiceImpl implements IBanjiService {
     @Override
     public void update(Banji banji) {
         banjiDao.update(banji);
+    }
+
+    @Override
+    public PageInfo<Banji> selectByPage(int pageNo, int pageSize) {
+        int offset = (pageNo - 1) * pageSize;
+        List<Banji> list = banjiDao.selectByPage(offset, pageSize);
+        int totalCount = banjiDao.selectTotalCount();
+        int totalPage = (int) Math.ceil((double) totalCount / pageSize);
+        PageInfo<Banji> pageInfo = new PageInfo<>(list, totalPage, pageNo, pageSize);
+        return pageInfo;
     }
 }

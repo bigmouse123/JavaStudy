@@ -15,4 +15,6 @@ public interface IBanjiDao {
     void add(Banji banji);
     Banji selectById(int id);
     void update(Banji banji);
+    List<Banji> selectByPage(int offset, int pageSize);
+    int selectTotalCount();
 }

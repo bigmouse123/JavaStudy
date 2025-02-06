@@ -1,5 +1,4 @@
 <%@ page import="com.situ.web.pojo.Banji" %>
-<%@ page import="com.situ.web.utils.PageInfo" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -10,8 +9,7 @@
 <body>
 <%--${list}--%>
 <%
-//    List<Banji> list = (List<Banji>) request.getAttribute("list");
-    PageInfo<Banji> pageInfo = (PageInfo<Banji>) request.getAttribute("pageInfo");
+    List<Banji> list = (List<Banji>) request.getAttribute("list");
 %>
 <table class="table table-striped table-bordered table-hover table-condensed">
     <tr>
@@ -22,7 +20,7 @@
         <td>编辑</td>
     </tr>
     <%
-        for (Banji banji : pageInfo.getList()) {
+        for (Banji banji : list) {
     %>
     <tr>
         <td><%=banji.getId()%></td>
@@ -38,27 +36,6 @@
 </table>
 <a href="banji_add.jsp" class="btn btn-success">添加</a>
 <a href="/banji?method=toBanjiAdd" class="btn btn-success">添加</a>
-<nav aria-label="Page navigation">
-    <ul class="pagination">
-        <li>
-            <a href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
-        <%
-            for (int i = 1; i <= pageInfo.getTotalPage(); i++) {
-        %>
-                <li><a href="/banji?method=selectByPage&pageNo=<%=i%>&pageSize=5"><%=i%></a></li>
-        <%
-            }
-        %>
-        <li>
-            <a href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-    </ul>
-</nav>
 <script>
     function deleteById(id) {
         var isDelete = confirm("您真的要删除吗?");

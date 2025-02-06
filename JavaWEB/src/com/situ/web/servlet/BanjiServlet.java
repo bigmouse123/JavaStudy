@@ -3,6 +3,7 @@ package com.situ.web.servlet;
 import com.situ.web.pojo.Banji;
 import com.situ.web.service.IBanjiService;
 import com.situ.web.service.impl.BanjiServiceImpl;
+import com.situ.web.utils.PageInfo;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,11 +30,14 @@ public class BanjiServlet extends HttpServlet {
         req.setCharacterEncoding("utf-8");
         String method = req.getParameter("method");
         if (method == null || method.equals("")) {
-            method = "selectAll";
+            method = "selectByPage";
         }
         switch (method) {
             case "selectAll":
                 selectAll(req, resp);
+                break;
+            case "selectByPage":
+                selectByPage(req, resp);
                 break;
             case "deleteById":
                 deleteById(req, resp);
@@ -58,6 +62,21 @@ public class BanjiServlet extends HttpServlet {
     private void selectAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Banji> list = banjiService.selectAll();
         req.setAttribute("list", list);
+        req.getRequestDispatcher("banji_list.jsp").forward(req, resp);
+    }
+
+    private void selectByPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String pageNo = req.getParameter("pageNo");
+        String pageSize = req.getParameter("pageSize");
+        if (pageNo == null || pageNo.equals("")) {
+            pageNo = "1";
+        }
+        if (pageSize == null || pageSize.equals("")) {
+            pageSize = "5";
+        }
+        PageInfo<Banji> pageInfo = banjiService.selectByPage(Integer.parseInt(pageNo), Integer.parseInt(pageSize));
+        System.out.println(pageInfo);
+        req.setAttribute("pageInfo", pageInfo);
         req.getRequestDispatcher("banji_list.jsp").forward(req, resp);
     }
 
