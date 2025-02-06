@@ -28,7 +28,7 @@
         <td><%=banji.getAddress()%></td>
 <%--        <td><a href="/deleteBanji?id=<%=banji.getId()%>">删除</a></td>--%>
         <td><a href="javascript:void(0)" onclick="deleteById(<%=banji.getId()%>)">删除</a></td>
-        <td><a href="/banji?method=selectById&id=<%=banji.getId()%>">编辑</a></td>
+        <td><a href="/banji?method=toBanjiUpdate&id=<%=banji.getId()%>">编辑</a></td>
     </tr>
     <%
         }

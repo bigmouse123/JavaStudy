@@ -2,7 +2,6 @@ package com.situ.web.dao.impl;
 
 import com.situ.web.dao.IBanjiDao;
 import com.situ.web.pojo.Banji;
-import com.situ.web.pojo.Student;
 import com.situ.web.utils.JDBCUtils;
 
 import java.sql.Connection;
@@ -29,7 +28,7 @@ public class BanjiDaoImpl implements IBanjiDao {
             String sql = "SELECT id,name,address from banji";
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
-            list = new ArrayList<Banji>();
+            list = new ArrayList<>();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
