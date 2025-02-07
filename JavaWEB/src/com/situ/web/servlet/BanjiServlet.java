@@ -87,7 +87,7 @@ public class BanjiServlet extends HttpServlet {
         PageInfo<Banji> pageInfo = banjiService.selectByPage(Integer.parseInt(pageNo), Integer.parseInt(pageSize));
         System.out.println(pageInfo);
         req.setAttribute("pageInfo", pageInfo);
-        req.getRequestDispatcher("banji_list.jsp").forward(req, resp);
+        req.getRequestDispatcher("/banji_list.jsp").forward(req, resp);
     }
 
     private void deleteById(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -125,6 +125,6 @@ public class BanjiServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
         Banji banji = banjiService.selectById(id);
         req.setAttribute("banji", banji);
-        req.getRequestDispatcher("banji_update.jsp").forward(req, resp);
+        req.getRequestDispatcher("/banji_update.jsp").forward(req, resp);
     }
 }
