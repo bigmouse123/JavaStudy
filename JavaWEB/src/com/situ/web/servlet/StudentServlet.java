@@ -1,10 +1,8 @@
 package com.situ.web.servlet;
 
 import com.situ.web.pojo.Student;
-import com.situ.web.pojo.User;
 import com.situ.web.service.IStudentService;
 import com.situ.web.service.impl.StudentServiceImpl;
-import com.situ.web.utils.JDBCUtils;
 import com.situ.web.utils.PageInfo;
 
 import javax.servlet.ServletException;
@@ -12,13 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 

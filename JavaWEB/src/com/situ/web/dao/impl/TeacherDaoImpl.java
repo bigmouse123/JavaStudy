@@ -1,7 +1,7 @@
 package com.situ.web.dao.impl;
 
-import com.situ.web.dao.IStudentDao;
-import com.situ.web.pojo.Student;
+import com.situ.web.dao.ITeacherDao;
+import com.situ.web.pojo.Teacher;
 import com.situ.web.utils.JDBCUtils;
 
 import java.sql.Connection;
@@ -14,19 +14,18 @@ import java.util.List;
 /**
  * @author OfferKing
  * @version 1.0
- * @date 2025/2/4 3:45
+ * @date 2025/2/7 19:48
  */
-public class StudentDaoImpl implements IStudentDao {
-
+public class TeacherDaoImpl implements ITeacherDao {
     @Override
-    public List<Student> selectAll() {
+    public List<Teacher> selectAll() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<Student> list = null;
+        List<Teacher> list = null;
         try {
             connection = JDBCUtils.getConnection();
-            String sql = "SELECT id,name,age,gender from student";
+            String sql = "SELECT id,name,address from teacher";
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
             list = new ArrayList<>();
@@ -34,12 +33,12 @@ public class StudentDaoImpl implements IStudentDao {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 int age = resultSet.getInt("age");
-                String gender = resultSet.getString("gender");
-                Student student = new Student(id, name, age, gender);
-                list.add(student);
+                String address = resultSet.getString("address");
+                Teacher teacher = new Teacher(id, name, age, address);
+                list.add(teacher);
             }
-            for (Student student : list) {
-                System.out.println(student);
+            for (Teacher teacher : list) {
+                System.out.println(teacher);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -50,86 +49,65 @@ public class StudentDaoImpl implements IStudentDao {
     }
 
     @Override
-    public void deleteById(int id) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = JDBCUtils.getConnection();
-            String sql = "delete from student where id = ?";
-            statement = connection.prepareStatement(sql);
-            statement.setInt(1, id);
-            int count = statement.executeUpdate();
-            System.out.println(statement);
-            System.out.println(count);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            JDBCUtils.close(connection, statement, null);
-        }
-    }
-
-    @Override
-    public void add(Student student) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = JDBCUtils.getConnection();
-            String sql = "insert into student(name,age,gender) values(?,?,?)";
-            statement = connection.prepareStatement(sql);
-            statement.setString(1, student.getName());
-            statement.setInt(2, student.getAge());
-            statement.setString(3, student.getGender());
-            int count = statement.executeUpdate();
-            System.out.println(statement);
-            System.out.println(count);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            JDBCUtils.close(connection, statement, null);
-        }
-    }
-
-    @Override
-    public Student selectById(int id) {
+    public Teacher selectById(int id) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        Student student = null;
+        Teacher teacher = null;
         try {
             connection = JDBCUtils.getConnection();
-            String sql = "SELECT id,name,age,gender from student where id = ?";
+            String sql = "SELECT id,name,age,address from teacher where id = ?";
             statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String name = resultSet.getString("name");
                 int age = resultSet.getInt("age");
-                String gender = resultSet.getString("gender");
-                student = new Student(id, name, age, gender);
+                String address = resultSet.getString("address");
+                teacher = new Teacher(id, name, age, address);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             JDBCUtils.close(connection, statement, resultSet);
         }
-        return student;
+        return teacher;
     }
 
     @Override
-    public void update(Student student) {
+    public void deleteById(int id) {
         Connection connection = null;
         PreparedStatement statement = null;
-        int id = student.getId();
-        String name = student.getName();
-        int age = student.getAge();
-        String gender = student.getGender();
         try {
             connection = JDBCUtils.getConnection();
-            String sql = "UPDATE student SET name = ?,age = ?,gender = ? WHERE id = ?";
+            String sql = "delete from teacher where id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            int count = statement.executeUpdate();
+            System.out.println(statement);
+            System.out.println(count);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            JDBCUtils.close(connection, statement, null);
+        }
+    }
+
+    @Override
+    public void update(Teacher teacher) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        int id = teacher.getId();
+        String name = teacher.getName();
+        int age = teacher.getAge();
+        String address = teacher.getAddress();
+        try {
+            connection = JDBCUtils.getConnection();
+            String sql = "UPDATE teacher SET name = ?,age = ?,address = ? WHERE id = ?";
             statement = connection.prepareStatement(sql);
             statement.setString(1, name);
             statement.setInt(2, age);
-            statement.setString(3, gender);
+            statement.setString(3, address);
             statement.setInt(4, id);
             int count = statement.executeUpdate();
             System.out.println(statement);
@@ -142,14 +120,14 @@ public class StudentDaoImpl implements IStudentDao {
     }
 
     @Override
-    public List<Student> selectByPage(int offset, int pageSize) {
+    public List<Teacher> selectByPage(int offset, int pageSize) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<Student> list = null;
+        List<Teacher> list = null;
         try {
             connection = JDBCUtils.getConnection();
-            String sql = "SELECT id,name,age,gender from student LIMIT ?,?";
+            String sql = "SELECT id,name,age,address from teacher LIMIT ?,?";
             statement = connection.prepareStatement(sql);
             statement.setInt(1, offset);
             statement.setInt(2, pageSize);
@@ -159,12 +137,12 @@ public class StudentDaoImpl implements IStudentDao {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 int age = resultSet.getInt("age");
-                String gender = resultSet.getString("gender");
-                Student student = new Student(id, name, age, gender);
-                list.add(student);
+                String address = resultSet.getString("address");
+                Teacher teacher = new Teacher(id, name, age, address);
+                list.add(teacher);
             }
-            for (Student student : list) {
-                System.out.println(student);
+            for (Teacher teacher : list) {
+                System.out.println(teacher);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -175,6 +153,27 @@ public class StudentDaoImpl implements IStudentDao {
     }
 
     @Override
+    public void add(Teacher teacher) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = JDBCUtils.getConnection();
+            String sql = "insert into teacher(name,age,address) values(?,?,?)";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, teacher.getName());
+            statement.setInt(2, teacher.getAge());
+            statement.setString(3, teacher.getAddress());
+            int count = statement.executeUpdate();
+            System.out.println(statement);
+            System.out.println(count);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            JDBCUtils.close(connection, statement, null);
+        }
+    }
+
+    @Override
     public int selectTotalCount() {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -182,7 +181,7 @@ public class StudentDaoImpl implements IStudentDao {
         int totalCount = 0;
         try {
             connection = JDBCUtils.getConnection();
-            String sql = "SELECT COUNT(*) from student";
+            String sql = "SELECT COUNT(*) from teacher";
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {

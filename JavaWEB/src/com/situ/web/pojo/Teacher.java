@@ -11,6 +11,9 @@ public class Teacher {
     private int age;
     private String address;
 
+    public Teacher() {
+    }
+
     public Teacher(Integer id, String name, int age, String address) {
         this.id = id;
         this.name = name;
