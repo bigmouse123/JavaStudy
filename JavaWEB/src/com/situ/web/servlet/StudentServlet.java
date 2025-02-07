@@ -1,6 +1,7 @@
 package com.situ.web.servlet;
 
 import com.situ.web.pojo.Student;
+import com.situ.web.pojo.User;
 import com.situ.web.utils.JDBCUtils;
 
 import javax.servlet.ServletException;
@@ -8,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,6 +30,14 @@ public class StudentServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("StudentServlet");
         req.setCharacterEncoding("utf-8");
+
+//        HttpSession session = req.getSession();
+//        User user = (User) session.getAttribute("user");
+//        if(user == null) {
+//            resp.sendRedirect("login.jsp");
+//            return;
+//        }
+
         // http://localhost:8080/JavaWeb/student?method=selectAll
         // http://localhost:8080/JavaWeb/student?method=deleteById&id=1
         // http://localhost:8080/JavaWeb/student?method=add

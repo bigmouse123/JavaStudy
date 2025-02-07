@@ -1,6 +1,7 @@
 package com.situ.web.servlet;
 
 import com.situ.web.pojo.Banji;
+import com.situ.web.pojo.User;
 import com.situ.web.service.IBanjiService;
 import com.situ.web.service.impl.BanjiServiceImpl;
 import com.situ.web.utils.PageInfo;
@@ -10,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -27,7 +29,15 @@ public class BanjiServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("BanjiServlet");
+
         req.setCharacterEncoding("utf-8");
+//        HttpSession session = req.getSession();
+//        User user = (User) session.getAttribute("user");
+//        if(user == null) {
+//            resp.sendRedirect("login.jsp");
+//            return;
+//        }
+
         String method = req.getParameter("method");
         if (method == null || method.equals("")) {
             method = "selectByPage";
