@@ -1,5 +1,6 @@
 <%@ page import="com.situ.web.pojo.Teacher" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="com.situ.web.utils.PageInfo" %><%--
   Created by IntelliJ IDEA.
   User: a1595
   Date: 2025/1/23
@@ -18,7 +19,8 @@
     //JSP页面可以嵌套java代码
     //JSP脚本：在这里可以任意写java代码
     //request、response Jsp页面的内置对象
-    List<Teacher> list = (List<Teacher>) request.getAttribute("list");
+//    List<Teacher> list = (List<Teacher>) request.getAttribute("list");
+    PageInfo<Teacher> pageInfo = (PageInfo<Teacher>) request.getAttribute("pageInfo");
 %>
 <table class="table table-striped table-bordered table-hover table-condensed">
     <tr>
@@ -30,7 +32,7 @@
         <td>编辑</td>
     </tr>
     <%
-        for (Teacher teacher : list) {
+        for (Teacher teacher : pageInfo.getList()) {
     %>
     <tr>
         <td><%=teacher.getId()%></td>
@@ -47,6 +49,27 @@
 </table>
 <a href="teacher_add.jsp" class="btn btn-success">添加</a>
 <a href="/teacher?method=toTeacherAdd" class="btn btn-success">添加</a>
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li>
+            <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <%
+            for (int i = 1; i <= pageInfo.getTotalPage(); i++) {
+        %>
+        <li><a href="/teacher?method=selectByPage&pageNo=<%=i%>&pageSize=5"><%=i%></a></li>
+        <%
+            }
+        %>
+        <li>
+            <a href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
 <script>
     function deleteById(id) {
         var isDelete = confirm("您真的要删除吗?");
