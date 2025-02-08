@@ -17,7 +17,7 @@
 				    <a href="javascript:;"> 
 <%-- 				        <img src="<%=path%>/img/fei.png" --%>
 <!-- 				        class="layui-nav-img"/> -->
-				        	<img width="40px" height="30px" src="/pic/${admin.image}"/> ${admin.name}
+				        	<img width="40px" height="30px" src="/pic/${admin.image}"/> ${user.name}__${sessionScope.user.name}
 				    </a>
 					<dl class="layui-nav-child">
 						<dd>
