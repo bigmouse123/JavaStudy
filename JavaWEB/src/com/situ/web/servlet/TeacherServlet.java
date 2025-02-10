@@ -120,7 +120,7 @@ public class TeacherServlet extends HttpServlet {
         int age = Integer.parseInt(req.getParameter("age"));
         String address = req.getParameter("address");
         Teacher teacher = new Teacher(id, name, age, address);
-        teacherService.add(teacher);
+        teacherService.update(teacher);
         resp.sendRedirect("/teacher");
     }
 

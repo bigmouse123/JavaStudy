@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <input type="text" id="input">
+    <input type="button" value="阶乘" onclick="clickCal()">
+    <span id="span"></span>
+    <script>
+      function clickCal() {
+        var n = parseInt(document.getElementById("input").value);
+        var spanObj = document.getElementById("span");
+        spanObj.innerText = fac(n);
+      }
+
+        function fac(n) {
+            if (n == 1 || n == 2) {
+              return n;
+            }
+            return n * fac(n - 1);
+        }
+    </script>
+</body>
+</html>
