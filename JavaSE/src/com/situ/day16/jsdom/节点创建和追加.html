@@ -14,7 +14,7 @@
 		-->
 		
 		<script type="text/javascript">
-			window.onload = function() {
+			/*window.onload = function() {
 				var colors = ['red', 'green', 'blue'];
 				var colorMeans = ['热情', '冷静', '生机'];
 				var ul = document.createElement("ul");
@@ -26,7 +26,22 @@
 					ul.appendChild(li)
 				}
 				document.body.appendChild(ul)
+			}*/
+
+			window.onload = function () {
+				var colors = ['red', 'green', 'blue'];
+				var colorMeans = ['热情', '冷静', '生机'];
+				var ul = document.createElement("ul");
+				for (let i = 0; i < colors.length; i++) {
+					var li = document.createElement("li");
+					li.setAttribute("mean", colorMeans[i]);
+					var textNode = document.createTextNode(colors[i]);
+					li.appendChild(textNode);
+					ul.appendChild(li)
+				}
+				document.body.appendChild(ul);
 			}
+
 		</script>
 	</body>
 </html>

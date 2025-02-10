@@ -8,18 +8,36 @@
     <input type="text" id="input">
     <input type="button" value="阶乘" onclick="clickCal()">
     <span id="span"></span>
+    <br>
+    <input type="text" id="num">
+    <input type="button" value="猜" onclick="guess()">
+    <span id="number"></span>
     <script>
-      function clickCal() {
-        var n = parseInt(document.getElementById("input").value);
-        var spanObj = document.getElementById("span");
-        spanObj.innerText = fac(n);
-      }
 
+        function clickCal() {
+            var n = parseInt(document.getElementById("input").value);
+            var spanObj = document.getElementById("span");
+            spanObj.innerText = fac(n);
+        }
         function fac(n) {
             if (n == 1 || n == 2) {
-              return n;
+                return n;
             }
             return n * fac(n - 1);
+        }
+
+        var randomNum = parseInt(Math.random() * 100 + 1);
+        console.log(randomNum);
+        function guess() {
+            var guessNum = parseInt(document.getElementById("num").value);
+            var numberObj = document.getElementById("number");
+            if (randomNum == guessNum) {
+                numberObj.innerText = "猜对了";
+            } else if (randomNum > guessNum) {
+                numberObj.innerText = "猜小了";
+            } else {
+                numberObj.innerText = "猜大了";
+            }
         }
     </script>
 </body>
