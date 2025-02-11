@@ -35,7 +35,8 @@
             $.each($('.hby'), function () {
                 //this  dom对象转换为JQuery对象: $(dom对象)
                 //$(this).prop('checked', !this.checked);
-                $(this).prop('checked', !$(this).prop('checked'));
+                // $(this).prop('checked', !$(this).prop('checked'));
+                this.checked = !this.checked;
             });
         }
         </script>
