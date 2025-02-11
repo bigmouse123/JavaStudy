@@ -27,9 +27,9 @@ public class Server_ {
         System.out.println("客户端希望下载的文件为" + downLoadFileName);
         String resqFileName = "";
         if ("高山流水".equals(downLoadFileName)) {
-            resqFileName = "F:\\JavaEE\\JavaSE\\分享资料\\高山流水.mp3";
+            resqFileName = "JavaSE\\src\\高山流水.mp3";
         } else {
-            resqFileName = "F:\\JavaEE\\JavaSE\\分享资料\\无名.mp3";
+            resqFileName = "JavaSE\\src\\无名.mp3";
         }
         //4.创建输入流，读取文件
         BufferedInputStream bufferedInputStream
