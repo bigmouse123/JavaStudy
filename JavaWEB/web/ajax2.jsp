@@ -48,7 +48,7 @@
                 //post里面为JSON对象
                 //this为DOM对象
                 //$(this)为Jquery对象
-                //function里面为JS对象
+                //function里面的jsonObj为JS对象
                 '/ajax2',
                 {'name': $(this).val()},
                 function (jsonObj) {

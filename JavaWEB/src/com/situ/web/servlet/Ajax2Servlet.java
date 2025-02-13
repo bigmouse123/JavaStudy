@@ -17,7 +17,7 @@ import java.util.Map;
  * @date 2025/2/11 15:35
  */
 @WebServlet("/ajax2")
-public class Ajax1Servlet2 extends HttpServlet {
+public class Ajax2Servlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("Ajax2Servelt.doPost");
