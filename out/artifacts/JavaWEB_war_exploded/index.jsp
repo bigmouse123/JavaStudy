@@ -64,6 +64,10 @@
 								<a href="javascript:;"
 								   data-url="/teacher"
 								   class="site-demo-active">老师管理</a>
+							</dd><dd>
+								<a href="javascript:;"
+								   data-url="/course_list.jsp"
+								   class="site-demo-active">课程管理</a>
 							</dd>
 							<dd>
 								<a href="javascript:;"

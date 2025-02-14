@@ -26,6 +26,7 @@ public class shortcutKey {
     // shift + enter 快速定位到下一行
     // shift + F6 重命名
     // ctrl + shift + R 全局替换
+    // alt + 7 打开structure
 //  /*
 //   * deBug
 //   * F5 单步执行程序，遇到方法时进入
