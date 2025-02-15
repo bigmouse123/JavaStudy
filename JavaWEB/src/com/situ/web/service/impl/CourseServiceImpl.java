@@ -20,7 +20,7 @@ public class CourseServiceImpl implements ICourseService {
     @Override
     public PageResult<Course> selectByPage(CourseQuery courseQuery) {
         List<Course> data = courseDao.selectByPage(courseQuery);
-        int totalCount = courseDao.selectTotalCount(courseQuery);
+        Integer totalCount = courseDao.selectTotalCount(courseQuery);
         PageResult<Course> pageResult = new PageResult<>(0, "", totalCount, data);
         return pageResult;
     }

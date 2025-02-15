@@ -79,12 +79,12 @@ public class CourseDaoImpl implements ICourseDao {
             String sql = "SELECT COUNT(*) FROM course WHERE 1=1";
             List<Object> params = new ArrayList<>();
             String queryName = courseQuery.getName();
-            if (!"".equals(queryName)) {
+            if (queryName != null && !"".equals(queryName)) {
                 sql += " AND name LIKE ?";
                 params.add("%" + queryName + "%");
             }
             String queryCredit = courseQuery.getCredit();
-            if (!"".equals(queryCredit)) {
+            if (queryCredit != null && !"".equals(queryCredit)) {
                 sql += " AND credit = ?";
                 params.add(queryCredit);
             }
@@ -95,6 +95,7 @@ public class CourseDaoImpl implements ICourseDao {
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 totalCount = resultSet.getInt(1);
+                System.out.println("totalCount=" + totalCount);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
