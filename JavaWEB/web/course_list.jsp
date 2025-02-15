@@ -16,6 +16,21 @@
 <script src="/static/layui/layui.js" type="text/javascript" charset="utf-8"></script>
 <script src="/static/mylayer.js" type="text/javascript" charset="utf-8"></script>
 
+<form class="layui-form">
+    课程名：
+    <div class="layui-inline">
+        <input type="text" name="name" class="layui-input" lay-affix="clear">
+    </div>
+    学分：
+    <div class="layui-inline">
+        <input type="text" name="credit" class="layui-input" lay-affix="clear">
+    </div>
+    <div class="layui-inline">
+        <button class="layui-btn" lay-submit lay-filter="submitSearch">搜索</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+</form>
+
 <table class="layui-hide" id="tableId" lay-filter="tableId"></table>
 
 <script type="text/html" id="toolbarDemo">
@@ -33,9 +48,10 @@
 </script>
 
 <script>
-    layui.use(['table', 'layer'], function () {
+    layui.use(['table', 'layer', 'form'], function () {
         var table = layui.table;
-
+        var form = layui.form;
+        var layer = layui.layer
         table.render({
             elem: '#tableId'
             , url: '/course'
@@ -52,6 +68,19 @@
                 true
         });
 
+        // 搜索提交
+        form.on('submit(submitSearch)', function(data){
+            var field = data.field; // 获得表单字段
+            // 执行搜索重载
+            table.reload('tableId', {
+                page: {
+                    curr: 1 // 重新从第 1 页开始
+                },
+                where: field // 搜索的字段
+            });
+            return false; // 阻止默认 form 跳转
+        });
+
         // 触发单元格工具事件
         table.on('tool(tableId)', function (obj) { // 双击 toolDouble
             var data = obj.data; // 获得当前行数据
@@ -59,10 +88,10 @@
             console.log(data)
             if (obj.event === 'update') {
                 layer.open({
-                    title: '编辑 - id:' + data.id,
-                    type: 1,
-                    area: ['80%', '80%'],
-                    content: '<div style="padding: 16px;">自定义表单元素</div>'
+                    type: 2,
+                    title: '编辑数据',
+                    area: ['90%', '90%'],
+                    content: '/course_update.jsp?id=' + data.id
                 });
             } else if (obj.event === 'deleteById') {
                 layer.confirm('您确认要删除么?', function () {
@@ -91,6 +120,9 @@
             var checkStatus = table.checkStatus(id);
             var othis = lay(this);
             console.log(obj);
+            console.log(checkStatus.data);
+            // [{…}, {…}]
+            // [{id: 2, name: 'UI', credit: 4}, {id: 3, name: 'H5', credit: 4}]
             // 根据不同的事件名进行相应的操作
             switch (obj.event) { // 对应模板元素中的 lay-event 属性值
                 case 'add':
@@ -102,7 +134,28 @@
                     });
                     break;
                 case 'deleteAll':
-                    layer.msg('删除');
+                    var data = checkStatus.data;
+                    var ids = new Array();
+                    $(data).each(function () {
+                        ids.push(this.id)
+                    });
+                    layer.confirm('您确认要删除么?', function () {
+                        $.post(
+                            '/course?method=deleteAll',
+                            {'ids': ids},
+                            function (result) {
+                                console.log(result);
+                                if (result.code == 0) {
+                                    mylayer.okMsg(result.msg);
+                                    //删除数据之后刷新表格，展示最新数据
+                                    table.reload('tableId');
+                                } else {
+                                    mylayer.errorMsg(result.msg);
+                                }
+                            },
+                            'json'
+                        );
+                    });
                     break;
             }
         });

@@ -2,6 +2,7 @@ package com.situ.web.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.situ.web.pojo.Course;
+import com.situ.web.pojo.query.CourseQuery;
 import com.situ.web.service.ICourseService;
 import com.situ.web.service.impl.CourseServiceImpl;
 import com.situ.web.utils.JSONUtils;
@@ -41,7 +42,37 @@ public class CourseServlet extends BaseServlet {
             case "add":
                 add(req, resp);
                 break;
+            case "selectById":
+                selectById(req, resp);
+                break;
+            case "update":
+                update(req, resp);
+                break;
+            case "deleteAll":
+                deleteAll(req, resp);
+                break;
         }
+    }
+
+    private void deleteAll(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String[] ids = req.getParameterValues("ids[]");
+        courseService.deleteAll(ids);
+        toJSON(resp, Result.ok("删除成功"));
+    }
+
+    private void selectById(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String id = req.getParameter("id");
+        Course course = courseService.selectById(Integer.parseInt(id));
+        JSONUtils.toJSON(resp, Result.ok(course));
+    }
+
+    private void update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String id = req.getParameter("id");
+        String name = req.getParameter("name");
+        String credit = req.getParameter("credit");
+        Course course = new Course(Integer.parseInt(id), name, Integer.parseInt(credit));
+        courseService.update(course);
+        JSONUtils.toJSON(resp, Result.ok("编辑成功"));
     }
 
     private void add(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -62,7 +93,10 @@ public class CourseServlet extends BaseServlet {
     private void selectByPage(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String page = req.getParameter("page");
         String limit = req.getParameter("limit");
-        PageResult<Course> pageResult = courseService.selectByPage(Integer.parseInt(page), Integer.parseInt(limit));
+        String name = req.getParameter("name");
+        String credit = req.getParameter("credit");
+        CourseQuery courseQuery = new CourseQuery(Integer.parseInt(page), Integer.parseInt(limit), name, credit);
+        PageResult<Course> pageResult = courseService.selectByPage(courseQuery);
         JSONUtils.toJSON(resp, pageResult);
     }
 }
