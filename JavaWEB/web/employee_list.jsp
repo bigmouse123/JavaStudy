@@ -1,14 +1,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: a1595
-  Date: 2025/2/14
-  Time: 10:28
+  Date: 2025/2/16
+  Time: 19:37
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>课程管理</title>
+    <title>雇员管理</title>
     <link rel="stylesheet" href="static/layui/css/layui.css">
 </head>
 <body>
@@ -17,13 +17,16 @@
 <script src="/static/mylayer.js" type="text/javascript" charset="utf-8"></script>
 
 <form class="layui-form">
-    课程名：
+    姓名：
     <div class="layui-inline">
         <input type="text" name="name" class="layui-input" lay-affix="clear">
     </div>
-    学分：
+    工资范围：
     <div class="layui-inline">
-        <input type="text" name="credit" class="layui-input" lay-affix="clear">
+        <input type="text" name="minSalary" class="layui-input" lay-affix="clear">
+    </div>
+    <div class="layui-inline">
+        <input type="text" name="maxSalary" class="layui-input" lay-affix="clear">
     </div>
     <div class="layui-inline">
         <button class="layui-btn" lay-submit lay-filter="submitSearch">搜索</button>
@@ -54,14 +57,14 @@
         var layer = layui.layer
         table.render({
             elem: '#tableId'
-            , url: '/course'
+            , url: '/employee'
             , toolbar: '#toolbarDemo'
             , cols:
                 [[
                     {type: 'checkbox', fixed: 'left'}
                     , {field: 'id', title: 'ID', sort: true}
                     , {field: 'name', title: '课程名称'}
-                    , {field: 'credit', title: '学分', sort: true}
+                    , {field: 'salary', title: '学分', sort: true}
                     , {fixed: 'right', title: '操作', width: 134, minWidth: 125, templet: '#toolDemo'}
                 ]]
             , page:
@@ -91,12 +94,12 @@
                     type: 2,
                     title: '编辑数据',
                     area: ['90%', '90%'],
-                    content: '/course_update.jsp?id=' + data.id
+                    content: '/employee_update.jsp?id=' + data.id
                 });
             } else if (obj.event === 'deleteById') {
                 layer.confirm('您确认要删除么?', function () {
                     $.post(
-                        '/course?method=deleteById',
+                        '/employee?method=deleteById',
                         {'id': data.id},
                         function (result) {
                             console.log(result);
@@ -130,7 +133,7 @@
                         type: 2,
                         title: '添加数据',
                         area: ['90%', '90%'],
-                        content: '/course_add.jsp'
+                        content: '/employee_add.jsp'
                     });
                     break;
                 case 'deleteAll':
@@ -141,7 +144,7 @@
                     });
                     layer.confirm('您确认要删除么?', function () {
                         $.post(
-                            '/course?method=deleteAll',
+                            '/employee?method=deleteAll',
                             {'ids': ids},
                             function (result) {
                                 console.log(result);

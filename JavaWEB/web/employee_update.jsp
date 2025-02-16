@@ -1,14 +1,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: a1595
-  Date: 2025/2/14
-  Time: 14:50
+  Date: 2025/2/16
+  Time: 20:56
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>课程信息更新</title>
+    <title>雇员信息更新</title>
     <link rel="stylesheet" href="/static/layui/css/layui.css">
     <script src="/static/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
     <script src="/static/layui/layui.js" type="text/javascript" charset="utf-8"></script>
@@ -25,9 +25,9 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">学分</label>
+        <label class="layui-form-label">薪资</label>
         <div class="layui-input-block">
-            <input type="text" name="credit" autocomplete="off" placeholder="请输入" lay-verify="required"
+            <input type="text" name="salary" autocomplete="off" placeholder="请输入" lay-verify="required"
                    class="layui-input">
         </div>
     </div>
@@ -48,7 +48,7 @@
         var id = urlParams.get("id");
         console.log("id: " + id);
         $.post(
-            '/course?method=selectById',
+            '/employee?method=selectById',
             {'id': id},
             function (result) {
                 console.log(result);
@@ -67,7 +67,7 @@
             //{"name":"UI","credit":"12"}
             // 此处可执行 Ajax 等操作
             $.post(
-                '/course?method=update',
+                '/employee?method=update',
                 data.field,
                 function (result) {
                     console.log(result);

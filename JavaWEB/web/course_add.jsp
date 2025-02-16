@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>添加课程</title>
     <link rel="stylesheet" href="/static/layui/css/layui.css">
     <script src="/static/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
     <script src="/static/layui/layui.js" type="text/javascript" charset="utf-8"></script>
