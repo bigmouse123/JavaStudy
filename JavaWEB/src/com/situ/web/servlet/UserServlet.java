@@ -3,6 +3,8 @@ package com.situ.web.servlet;
 import com.situ.web.pojo.User;
 import com.situ.web.service.IUserService;
 import com.situ.web.service.impl.UserServiceImpl;
+import com.situ.web.utils.JSONUtils;
+import com.situ.web.utils.Result;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -46,14 +48,21 @@ public class UserServlet extends HttpServlet {
     private void login(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String name = req.getParameter("name");
         String password = req.getParameter("password");
+        String code = req.getParameter("code");
+        HttpSession session = req.getSession();
+        String codeInSession = (String) session.getAttribute("codeInSession");
+        if (!codeInSession.equals(code)) {
+            JSONUtils.toJSON(resp, Result.error("验证码错误"));
+            return;
+        }
+
         User user = userService.login(name, password);
         System.out.println(user);
         if (user == null) {
-            resp.sendRedirect("/fail.jsp");
+            JSONUtils.toJSON(resp, Result.error("登录失败"));
         } else {
-            HttpSession session = req.getSession();
             session.setAttribute("user", user);
-            resp.sendRedirect("/");
+            JSONUtils.toJSON(resp, Result.ok("登录成功"));
         }
 
     }

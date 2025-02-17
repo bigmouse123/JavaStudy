@@ -4,6 +4,7 @@ import com.situ.web.dao.IUserDao;
 import com.situ.web.dao.impl.UserDaoImpl;
 import com.situ.web.pojo.User;
 import com.situ.web.service.IUserService;
+import com.situ.web.utils.MD5Util;
 
 /**
  * @author OfferKing
@@ -16,6 +17,6 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public User login(String username, String password) {
-        return userDao.login(username, password);
+        return userDao.login(username, MD5Util.MD5Encode(password));
     }
 }
