@@ -65,7 +65,7 @@
                 <div class="layui-col-xs5">
                     <div style="margin-left: 10px;">
                         <img src="/verifyCode"
-                             onclick="this.src='/verifyCode'+ new Date().getTime();">
+                             onclick="this.src='/verifyCode?'+ new Date().getTime();">
                     </div>
                 </div>
             </div>
