@@ -96,10 +96,10 @@
             $('#formId').serialize(),
             function (result) {
                 console.log(result);
-                if (result.code == 0) {
+                if (result.code === 0) {
                     mylayer.okUrl(result.msg, '/');
                 } else {
-                    mylayer.errorMsg(result.msg);
+                    mylayer.errorUrl(result.msg, '/fail.jsp');
                 }
             },
             'json'
