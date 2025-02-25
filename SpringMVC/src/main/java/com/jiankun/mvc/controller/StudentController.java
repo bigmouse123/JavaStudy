@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -88,7 +89,7 @@ public class StudentController {
     @RequestMapping("/selectAll")
     public String selectAll() {
         System.out.println("StudentController.selectAll");
-        return "/student_list.jsp";
+        return "student_list";
     }
 
     @RequestMapping("/selectById")
@@ -109,6 +110,17 @@ public class StudentController {
         list.add(student2);
         list.add(student3);
         return list;
+    }
+
+    @RequestMapping("/selectByPage")
+    public String selectByPage(@RequestParam(value = "page", defaultValue = "1") Integer pageNo,
+                               @RequestParam(defaultValue = "5") Integer pageSize,
+                               @RequestParam(required = true, defaultValue = "4") Integer totalPage) {
+        System.out.println("pageNo: " + pageNo);
+        System.out.println("pageSize: " + pageSize);
+        System.out.println("defaultValue: " + totalPage);
+
+        return "student_list";
     }
 
 }
