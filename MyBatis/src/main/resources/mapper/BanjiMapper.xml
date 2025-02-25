@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="banji">
+
+    <resultMap id="BanjiStudentMap" type="Banji">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <collection property="list" ofType="Student">
+            <result column="studentId" property="id"></result>
+            <result column="studentName" property="name"></result>
+            <result column="studentAge" property="age"></result>
+            <result column="studentGender" property="gender"></result>
+        </collection>
+    </resultMap>
+
+    <resultMap id="BanjiMap" type="Banji">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <collection property="list" column="id" select="student.selectByBanjiId" ofType="Student"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="BanjiMap">
+        SELECT id, name
+        FROM banji
+    </select>
+
+    <select id="selectBanjiStudentInfo" resultMap="BanjiStudentMap">
+        SELECT b.id, b.`name`, s.id AS studentId, s.name AS studentName, s.age AS studentAge, s.gender AS studentGender
+        FROM student AS s
+                 INNER JOIN banji AS b
+                            ON s.banji_id = b.id;
+    </select>
+
+    <select id="selectById" resultType="Banji">
+        SELECT id, name
+        FROM banji
+        WHERE id = #{id}
+    </select>
+
+</mapper>
