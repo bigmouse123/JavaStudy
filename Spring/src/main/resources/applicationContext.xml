@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!--<bean scope="prototype" name="banji" class="com.jiankun.spring.pojo.Banji">
+        <property name="id" value="1"/>
+        <property name="name" value="Java2501"/>
+    </bean>-->
+    <!-- IOC容器配置，要创建的所有对象都配置到这里，交给Spring容器来管理 -->
+    <!--<bean scope="prototype" name="student" class="com.jiankun.spring.pojo.Student">
+        <property name="id" value="1"/>
+        <property name="name" value="李四"/>
+        <property name="age" value="36"/>
+        <property name="gender" value="女"/>
+        <property name="banji" ref="banji"/>
+    </bean>-->
+
+    <!--<bean scope="prototype" name="banji" class="com.jiankun.spring.pojo.Banji">
+        <constructor-arg name="id" value="1"/>
+        <constructor-arg name="name" value="Java2407"/>
+    </bean>-->
+    <!-- IOC容器配置，要创建的所有对象都配置到这里，交给Spring容器来管理 -->
+    <!--<bean scope="prototype" name="student" class="com.jiankun.spring.pojo.Student">
+        <constructor-arg name="id" value="10"/>
+        <constructor-arg name="name" value="王五"/>
+        <constructor-arg name="age" value="23"/>
+        <constructor-arg name="gender" value="男"/>
+        <constructor-arg name="banji" ref="banji"/>
+    </bean>-->
+
+    <bean name="studentDao" class="com.jiankun.spring.dao.impl.StudentDaoImpl"/>
+    <bean name="studentService" class="com.jiankun.spring.service.impl.StudentServiceImpl">
+        <property name="studentDao" ref="studentDao"/>
+    </bean>
+    <bean name="studentController" class="com.jiankun.spring.controller.StudentController">
+        <property name="studentService" ref="studentService"/>
+    </bean>
+
+    <!--base-package:是要扫描的包，扫描这个包下面类上带有注解@Controller @Service @Repositioy  -->
+    <context:component-scan base-package="com.jiankun.spring"/>
+</beans>
