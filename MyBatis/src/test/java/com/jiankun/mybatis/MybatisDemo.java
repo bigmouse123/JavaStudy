@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,28 +43,28 @@ public class MybatisDemo {
         System.out.println(student);
     }
 
-//    @Test
-//    public void testSelectAll() throws IOException {
-//        SqlSession sqlSession = MyBatisUtils.getSqlSession();
-//        // 执行sql语句
-//        List<Student> list = sqlSession.selectList("student.selectAll");
-//        for (Student student : list) {
-//            System.out.println(student);
-//        }
-//    }
-
     @Test
     public void testSelectAll() throws IOException {
         SqlSession sqlSession = MyBatisUtils.getSqlSession();
         // 执行sql语句
-        List<Banji> list = sqlSession.selectList("banji.selectAll");
-        for (Banji banji : list) {
-            System.out.println(banji);
-//            for (Student student : banji.getList()) {
-//                System.out.println(student);
-//            }
+        List<Student> list = sqlSession.selectList("student.selectAll");
+        for (Student student : list) {
+            System.out.println(student);
         }
     }
+
+//    @Test
+//    public void testSelectAll() throws IOException {
+//        SqlSession sqlSession = MyBatisUtils.getSqlSession();
+//        // 执行sql语句
+//        List<Banji> list = sqlSession.selectList("banji.selectAll");
+//        for (Banji banji : list) {
+//            System.out.println(banji);
+////            for (Student student : banji.getList()) {
+////                System.out.println(student);
+////            }
+//        }
+//    }
 
     @Test
     public void testDelete() throws IOException {
@@ -139,4 +140,104 @@ public class MybatisDemo {
             }
         }
     }
+
+    @Test
+    public void testselectByCondition() throws IOException {
+        SqlSession sqlSession = MyBatisUtils.getSqlSession();
+        Student stu = new Student();
+        stu.setName("d");
+        stu.setGender("男");
+        List<Student> list = sqlSession.selectList("student.selectByCondition", stu);
+        for (Student student : list) {
+            System.out.println(student);
+        }
+    }
+
+    @Test
+    public void testUpdateCondition() {
+        SqlSession sqlSession = MyBatisUtils.getSqlSession();
+        Student student = new Student();
+        student.setId(1);
+        student.setName("李建坤");
+        student.setAge(22);
+        //student.setGender("女");
+        int count = sqlSession.update("student.updateCondition", student);
+        System.out.println(count);
+        sqlSession.commit();
+    }
+
+    @Test
+    public void testDeleteAllByArray() {
+        int[] array = {34, 37};
+        SqlSession sqlSession = MyBatisUtils.getSqlSession();
+        int count = sqlSession.delete("student.deleteAllByArray", array);
+        System.out.println("count: " + count);
+        sqlSession.commit();
+        sqlSession.close();
+    }
+
+    @Test
+    public void testDeleteAllByList() {
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(30);
+        list.add(33);
+        SqlSession sqlSession = MyBatisUtils.getSqlSession();
+        int count = sqlSession.delete("student.deleteAllByList", list);
+        System.out.println("count: " + count);
+        sqlSession.commit();
+        sqlSession.close();
+    }
+
+    @Test
+    public void testSelectByCondition1() {
+        Student student = new Student();
+        //student.setName("王");
+        student.setAge(25);
+        student.setGender("女");
+        SqlSession sqlSession = MyBatisUtils.getSqlSession();
+        List<Student> list = sqlSession.selectList("student.selectByCondition1", student);
+        for (Student s : list) {
+            System.out.println(s);
+        }
+    }
+
+    @Test
+    public void testAddSelective() {
+        Student student = new Student();
+        student.setName("王");
+        student.setAge(23);
+        student.setGender("女");
+        SqlSession sqlSession = MyBatisUtils.getSqlSession();
+        int count = sqlSession.insert("student.addSelective", student);
+        System.out.println("count: " + count);
+        sqlSession.commit();
+        sqlSession.close();
+    }
+
+    @Test
+    public void testUpdateSelective() {
+        SqlSession sqlSession = MyBatisUtils.getSqlSession();
+        Student student = new Student();
+        student.setId(31);
+        student.setName("张三");
+        student.setAge(35);
+        //student.setGender("女");
+        int count = sqlSession.update("student.updateSelective", student);
+        System.out.println(count);
+        sqlSession.commit();
+    }
+
+    @Test
+    public void testSelectByCondition2() {
+        Student student = new Student();
+        //student.setName("王");
+        student.setAge(25);
+        student.setGender("女");
+        SqlSession sqlSession = MyBatisUtils.getSqlSession();
+        List<Student> list = sqlSession.selectList("student.selectByCondition2", student);
+        for (Student s : list) {
+            System.out.println(s);
+        }
+    }
+
 }

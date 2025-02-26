@@ -96,5 +96,128 @@
         SELECT COUNT(*)
         FROM student
     </select>
+
+    <select id="selectByCondition" parameterType="Student" resultType="Student">
+        SELECT
+        <include refid="studentColumns"/>
+        FROM student
+        <where>
+            <if test="name!=null and name!=''">
+                AND name LIKE CONCAT("%",#{name},"%")
+            </if>
+            <if test="age!=null">
+                AND age=#{age}
+            </if>
+            <if test="gender!=null and gender!=''">
+                AND gender=#{gender}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateCondition" parameterType="Student">
+        UPDATE student
+        <set>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="age!=null">
+                age=#{age},
+            </if>
+            <if test="gender!=null and gender!=''">
+                gender=#{gender},
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteAllByArray">
+        DELETE FROM student
+        WHERE id IN
+        <foreach collection="array" open="(" item="id" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteAllByList">
+        DELETE FROM student
+        WHERE id IN
+        <foreach collection="list" open="(" item="id" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectByCondition1" parameterType="Student" resultMap="StudentMap">
+        SELECT
+        <include refid="studentColumns"/>
+        FROM student
+        WHERE
+        <choose>
+            <when test="name!=null and name !=''">
+                name=#{name}
+            </when>
+            <when test="age!=null">
+                age=#{age}
+            </when>
+            <when test="gender!=null and gender !=''">
+                gender=#{gender}
+            </when>
+            <otherwise></otherwise>
+        </choose>
+    </select>
+
+    <insert id="addSelective" parameterType="Student">
+        INSERT INTO student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name!=null and name!=''">
+                name,
+            </if>
+            <if test="age!=null and age!=''">
+                age,
+            </if>
+            <if test="gender!=null and gender!=''">
+                gender,
+            </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name!=null and name!=''">
+                #{name},
+            </if>
+            <if test="age!=null and age!=''">
+                #{age},
+            </if>
+            <if test="gender!=null and gender!=''">
+                #{gender},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateSelective" parameterType="Student">
+        UPDATE student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="gender != null and gender != ''">
+                gender = #{gender},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectByCondition2" parameterType="Student" resultType="Student">
+        SELECT * FROM student
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="name != null and name != ''">
+                AND name LIKE concat('%', #{name}, '%')
+            </if>
+            <if test="age != null">
+                AND age = #{age}
+            </if>
+        </trim>
+    </select>
 </mapper>
   
