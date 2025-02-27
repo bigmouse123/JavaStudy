@@ -14,9 +14,15 @@ import org.springframework.stereotype.Service;
 public class BanjiServiceImpl implements IBanjiService {
     @Autowired
     private IBanjiDao banjiDao;
+
     @Override
     public void selectAll() {
         System.out.println("BanjiServiceImpl.selectAll");
-        banjiDao.selectAll();
+//        banjiDao.selectAll();
+    }
+
+    @Override
+    public void deleteById(String id) {
+        System.out.println("BanjiServiceImpl.deleteById");
     }
 }

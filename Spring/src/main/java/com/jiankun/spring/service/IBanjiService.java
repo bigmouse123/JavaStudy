@@ -7,4 +7,5 @@ package com.jiankun.spring.service;
  */
 public interface IBanjiService {
     public void selectAll();
+    public void deleteById(String id);
 }
