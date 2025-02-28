@@ -8,6 +8,8 @@
         <option value="$PROJECT_DIR$/MyBatis/pom.xml" />
         <option value="$PROJECT_DIR$/Spring/pom.xml" />
         <option value="$PROJECT_DIR$/SSM/pom.xml" />
+        <option value="$PROJECT_DIR$/springboot/pom.xml" />
+        <option value="$PROJECT_DIR$/thymeleaf/pom.xml" />
       </list>
     </option>
   </component>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.css}">
+    <script type="text/javascript" th:src="@{/jquery-2.1.4.js}"></script>
+    <script type="text/javascript" th:src="@{/mylayer.js}"></script>
+</head>
+<body>
+<a class="btn btn-primary" href="/">返回首页</a> <br/>
+<a class="btn btn-primary" href="#" th:href="@{/}">返回首页</a> <br/>
+<a href="/student/search">访问StudentController下面的search方法</a> <br/>
+<a href="#" th:href="@{/student/search}">访问StudentController下面的search方法</a><br/>
+<!-- 会生成 url: http://localhost:8888/student/search?id=2&name=zhangsan -->
+<a href="#"
+   th:href="@{/student/search(id=${student.id},name=${student.name})}">访问UrlController下面的demo方法带参数</a>
+</body>
+</html>

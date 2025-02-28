@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org/">
+    <title>Title</title>
+</head>
+<body>
+request:
+<div>
+    编号：<span th:text="${student1.id}"></span><br>
+    姓名：<span th:text="${student1.name}"></span><br>
+    年龄：<span th:text="${student1.age}"></span><br>
+</div>
+session:
+<div>
+    编号：<span th:text="${session.student2.id}"></span><br>
+    姓名：<span th:text="${session.student2.name}"></span><br>
+    年龄：<span th:text="${session.student2.age}"></span><br>
+</div>
+application:
+<div>
+    编号：<span th:text="${application.student3.id}"></span><br>
+    姓名：<span th:text="${application.student3.name}"></span><br>
+    年龄：<span th:text="${application.student3.age}"></span><br>
+</div>
+application:
+<div th:object="${application.student3}">
+    编号：<span th:text="*{id}"></span><br>
+    姓名：<span th:text="*{name}"></span><br>
+    年龄：<span th:text="*{age}"></span><br>
+</div>
+<hr>
+<span th:text="${session.user?.id}"></span>
+</body>
+</html>

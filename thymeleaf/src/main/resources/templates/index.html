@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset=" UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:text="${message}"></div>
+    <input type="text" th:id="${student.id}" th:name="${student.name}" th:value="${student.name}">
+    <table border="1" cellspacing="0">
+        <tr>
+            <td>编号</td>
+            <td>姓名</td>
+            <td>年龄</td>
+            <td>生日</td>
+        </tr>
+        <tr th:each="student:${list}">
+            <td th:text="${student.id}"></td>
+            <td th:text="${student.name}"></td>
+            <td th:text="${student.age}"></td>
+            <td th:text="${student.birthday}"></td>
+        </tr>
+    </table>
+<p th:text="${list}"></p>
+<p th:text="${list[0]}"></p>
+<p th:text="${list[0].name}"></p>
+<p th:text="${list[0]['name']}"></p>
+<p th:text="${list[0].getId()}"></p>
+<p th:text="${list[0].getName().substring(0,1)}"></p>
+</body>
+</html>

@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/JavaStudy2501.iml" filepath="$PROJECT_DIR$/JavaStudy2501.iml" />
       <module fileurl="file://$PROJECT_DIR$/JavaWEB/JavaWEB.iml" filepath="$PROJECT_DIR$/JavaWEB/JavaWEB.iml" />
       <module fileurl="file://$PROJECT_DIR$/SpringMVC.iml" filepath="$PROJECT_DIR$/SpringMVC.iml" />
+      <module fileurl="file://$PROJECT_DIR$/thymeleaf/thymeleaf.iml" filepath="$PROJECT_DIR$/thymeleaf/thymeleaf.iml" />
     </modules>
   </component>
 </project>
