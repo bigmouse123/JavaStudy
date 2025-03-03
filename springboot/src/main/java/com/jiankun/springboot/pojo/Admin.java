@@ -2,6 +2,8 @@ package com.jiankun.springboot.pojo;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @author OfferKing
  * @version 1.0
@@ -15,4 +17,8 @@ public class Admin {
     private Integer role;
     private String phone;
     private String email;
+    private String image;
+    private Integer status;
+    private Date createTime;
+    private Date updateTime;
 }

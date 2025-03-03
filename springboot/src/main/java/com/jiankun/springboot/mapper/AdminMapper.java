@@ -1,6 +1,7 @@
 package com.jiankun.springboot.mapper;
 
 import com.jiankun.springboot.pojo.Admin;
+import com.jiankun.springboot.pojo.query.AdminQuery;
 
 import java.util.List;
 
@@ -10,5 +11,13 @@ import java.util.List;
  * @date 2025/2/28 11:07
  */
 public interface AdminMapper {
-    public List<Admin> selectAll();
+    List<Admin> selectAll();
+
+    List<Admin> selectByPage(AdminQuery adminQuery);
+
+    void add(Admin admin);
+
+    Admin login(String name, String password);
+
+    void updateStatus(Integer id, Integer status);
 }

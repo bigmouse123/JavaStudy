@@ -1,7 +1,11 @@
 package com.jiankun.springboot.controller;
 
 import com.jiankun.springboot.pojo.Admin;
+import com.jiankun.springboot.pojo.query.AdminQuery;
 import com.jiankun.springboot.service.IAdminService;
+import com.jiankun.springboot.util.PageResult;
+import com.jiankun.springboot.util.Result;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +24,48 @@ import java.util.List;
 public class AdminController {
     @Autowired
     private IAdminService adminService;
+
+    @RequestMapping("/selectByPage")
+    @ResponseBody
+    public PageResult<Admin> selectByPage(AdminQuery adminQuery) {
+        PageResult<Admin> pageResult = adminService.selectByPage(adminQuery);
+        return pageResult;
+    }
+
+    @RequestMapping("/add")
+    @ResponseBody
+    public Result add(Admin admin) {
+        adminService.add(admin);
+        return Result.ok("添加成功");
+    }
+
+    @RequestMapping("/login")
+    @ResponseBody
+    public Result login(String name, String password, HttpSession session) {
+        Admin admin = adminService.login(name, password);
+        if (admin == null) {
+            return Result.error("用户名或密码错误");
+        }
+        if (admin.getStatus() == 0) {
+            return Result.error("该用户被封禁");
+        }
+        session.setAttribute("admin", admin);
+        return Result.ok("登录成功");
+    }
+
+    @RequestMapping("/logout")
+    @ResponseBody
+    public Result logout(HttpSession session) {
+        session.removeAttribute("admin");
+        return Result.ok("注销成功");
+    }
+
+    @RequestMapping("/updateStatus")
+    @ResponseBody
+    public Result updateStatus(Integer id, Integer status) {
+        adminService.updateStatus(id, status);
+        return Result.ok("修改状态成功");
+    }
 
     @RequestMapping("/selectAll")
     @ResponseBody
@@ -46,4 +92,5 @@ public class AdminController {
     public String toList() {
         return "admin_list";
     }
+
 }
