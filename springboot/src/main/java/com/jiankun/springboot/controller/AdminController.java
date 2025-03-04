@@ -8,8 +8,7 @@ import com.jiankun.springboot.util.Result;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,28 +18,30 @@ import java.util.List;
  * @version 1.0
  * @date 2025/2/28 10:42
  */
-@Controller
+//@Controller
+@RestController
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
     private IAdminService adminService;
 
     @RequestMapping("/selectByPage")
-    @ResponseBody
+//    @ResponseBody
     public PageResult<Admin> selectByPage(AdminQuery adminQuery) {
         PageResult<Admin> pageResult = adminService.selectByPage(adminQuery);
         return pageResult;
     }
 
-    @RequestMapping("/add")
-    @ResponseBody
-    public Result add(Admin admin) {
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+//    @ResponseBody
+    public Result add(/*@RequestBody*/ Admin admin) {
+        System.out.println(admin);
         adminService.add(admin);
         return Result.ok("添加成功");
     }
 
-    @RequestMapping("/login")
-    @ResponseBody
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+//    @ResponseBody
     public Result login(String name, String password, HttpSession session) {
         Admin admin = adminService.login(name, password);
         if (admin == null) {
@@ -54,21 +55,21 @@ public class AdminController {
     }
 
     @RequestMapping("/logout")
-    @ResponseBody
+//    @ResponseBody
     public Result logout(HttpSession session) {
         session.removeAttribute("admin");
         return Result.ok("注销成功");
     }
 
     @RequestMapping("/updateStatus")
-    @ResponseBody
+//    @ResponseBody
     public Result updateStatus(Integer id, Integer status) {
         adminService.updateStatus(id, status);
         return Result.ok("修改状态成功");
     }
 
     @RequestMapping("/selectAll")
-    @ResponseBody
+//    @ResponseBody
     public List<Admin> selectAll() {
 //        System.out.println("StudentController.selectAll");
 //        List<Admin> list = new ArrayList<>();
