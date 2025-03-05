@@ -1,10 +1,15 @@
 package com.jiankun.springboot.controller;
 
+import cn.hutool.extra.servlet.JakartaServletUtil;
+import com.jiankun.springboot.annotation.MyLog;
 import com.jiankun.springboot.pojo.Admin;
+import com.jiankun.springboot.pojo.LoginLog;
 import com.jiankun.springboot.pojo.query.AdminQuery;
 import com.jiankun.springboot.service.IAdminService;
+import com.jiankun.springboot.service.ILoginLogService;
 import com.jiankun.springboot.util.PageResult;
 import com.jiankun.springboot.util.Result;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +30,9 @@ public class AdminController {
     @Autowired
     private IAdminService adminService;
 
+    @Autowired
+    private ILoginLogService loginLogService;
+
     @RequestMapping("/selectByPage")
 //    @ResponseBody
     public PageResult<Admin> selectByPage(AdminQuery adminQuery) {
@@ -34,6 +42,7 @@ public class AdminController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
 //    @ResponseBody
+    @MyLog(module = "管理员模块")
     public Result add(/*@RequestBody*/ Admin admin) {
         System.out.println(admin);
         adminService.add(admin);
@@ -42,7 +51,8 @@ public class AdminController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
 //    @ResponseBody
-    public Result login(String name, String password, HttpSession session) {
+    @MyLog
+    public Result login(String name, String password, HttpSession session, HttpServletRequest request) {
         Admin admin = adminService.login(name, password);
         if (admin == null) {
             return Result.error("用户名或密码错误");
@@ -50,6 +60,13 @@ public class AdminController {
         if (admin.getStatus() == 0) {
             return Result.error("该用户被封禁");
         }
+        LoginLog loginLog = new LoginLog();
+        loginLog.setAdminName(name);
+        loginLog.setAdminId(admin.getId());
+        loginLog.setStatus(1);
+        loginLog.setMsg("登录成功");
+        loginLog.setIp(JakartaServletUtil.getClientIP(request));
+        loginLogService.add(loginLog);
         session.setAttribute("admin", admin);
         return Result.ok("登录成功");
     }
