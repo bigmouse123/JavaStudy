@@ -2,6 +2,7 @@ package com.jiankun.springboot.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jiankun.springboot.constant.RedisConstant;
 import com.jiankun.springboot.mapper.AdminMapper;
 import com.jiankun.springboot.pojo.Admin;
 import com.jiankun.springboot.pojo.query.AdminQuery;
@@ -10,6 +11,7 @@ import com.jiankun.springboot.util.PageResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +24,8 @@ import java.util.List;
 @Service
 public class AdminServiceImpl implements IAdminService {
     private static final Logger logger = LoggerFactory.getLogger(AdminServiceImpl.class);
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Autowired
     private AdminMapper adminMapper;
@@ -60,6 +64,7 @@ public class AdminServiceImpl implements IAdminService {
     @Override
     public void add(Admin admin) {
         adminMapper.add(admin);
+        redisTemplate.opsForSet().add(RedisConstant.UPLOAD_IMAGE_TO_DB, admin.getImage());
     }
 
     @Override
