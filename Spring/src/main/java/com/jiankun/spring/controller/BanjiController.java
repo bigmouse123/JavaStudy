@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class BanjiController {
     @Autowired
-    @Qualifier(value = "anjiServiceImpl2")
+    @Qualifier(value = "banjiServiceImpl2")
     private IBanjiService banjiService;
 
     public void selectAll() {
